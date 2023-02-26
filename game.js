@@ -12,7 +12,7 @@ function setCanvasSize(){
     if (window.innerHeight > window.innerWidth){
         canvasSize = window.innerWidth * 0.8
     }else{
-        canvasSize = window.innerHeight *0.8
+        canvasSize = window.innerHeight * 0.8
     }
 
     canvas.setAttribute('width', canvasSize)
@@ -27,7 +27,13 @@ function startGame(){    //Funcion realiza los calculos para que responsivamente
     game.font = elementsSize + 'px Arial'
     game.textAlign = 'end'
 
-    for (let i = 1; i <= 10; i++) {  
-        game.fillText(emojis['X'], elementsSize * i, elementsSize)  
+    const map = maps[0].match(/[IXO\-]+/g).map(a => a.split(""))
+
+    console.log(map)
+
+    for (let row = 1; row <= 10; row++) {  
+        for (let col = 1; col <= 10; col++){
+            game.fillText(emojis[map[row - 1][col - 1]], elementsSize * col, elementsSize * row) 
+        } 
     }
 }
