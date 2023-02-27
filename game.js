@@ -29,11 +29,20 @@ function startGame(){    //Funcion realiza los calculos para que responsivamente
 
     const map = maps[0].match(/[IXO\-]+/g).map(a => a.split(""))
 
-    console.log(map)
+    map.forEach((row, rowI) => {
+        row.forEach((col, colI) => {
+            const emoji = emojis[col]
+            const posX = elementsSize * (colI + 1)
+            const posY = elementsSize * (rowI + 1)
+            game.fillText(emoji, posX, posY)
+        })
+    })
 
-    for (let row = 1; row <= 10; row++) {  
-        for (let col = 1; col <= 10; col++){
-            game.fillText(emojis[map[row - 1][col - 1]], elementsSize * col, elementsSize * row) 
-        } 
-    }
+    //OTRA MANERA DE CREAR EL MAPA
+
+    // for (let row = 1; row <= 10; row++) {  
+    //     for (let col = 1; col <= 10; col++){
+    //         game.fillText(emojis[map[row - 1][col - 1]], elementsSize * col, elementsSize * row) 
+    //     } 
+    // }
 }
