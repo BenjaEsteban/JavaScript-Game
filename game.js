@@ -5,9 +5,6 @@ const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
 
-window.addEventListener('load', setCanvasSize)
-window.addEventListener('resize', setCanvasSize)
-
 //Variables globales
 let canvasSize
 let elementsSize
@@ -15,8 +12,17 @@ let elementsSize
 //Objeto que almacena las posiciones en el canvas
 const playerPosition = {
     x: undefined,
-    y: undefined,
+    y: undefined
 }
+const giftPosition = {
+    x: undefined,
+    y: undefined
+}
+
+let enemiesPosition = []
+
+window.addEventListener('load', setCanvasSize)
+window.addEventListener('resize', setCanvasSize)
 
 function setCanvasSize(){
     if (window.innerHeight > window.innerWidth){
@@ -39,6 +45,8 @@ function startGame(){    //Funcion realiza los calculos para que responsivamente
 
     const map = maps[0].match(/[IXO\-]+/g).map(a => a.split(""))
 
+    enemiesPosition = []
+
     game.clearRect(0, 0, canvasSize, canvasSize)
 
     map.forEach((row, rowI) => {
@@ -53,16 +61,40 @@ function startGame(){    //Funcion realiza los calculos para que responsivamente
                     playerPosition.y = posY
                     console.log({playerPosition})
                 }
+            } else if (col == 'I'){
+                giftPosition.x = posX
+                giftPosition.y = posY
+            } else if (col == 'X'){
+                enemiesPosition.push({
+                    x: posX,
+                    y: posY
+                })
             }
             game.fillText(emoji, posX, posY)
         })
-        movePlayer()
     })
+    movePlayer()
 }
 
 function movePlayer(){
-    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
+    const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3)
+    const giftCollisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3)
+    const exito = giftCollisionX && giftCollisionY
 
+    if (exito){
+        console.log('Felicidades!')
+    }
+    const enemyCollision = enemiesPosition.find(enemy => {
+        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
+        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
+        return enemyCollisionX && enemyCollisionY
+    })
+
+    if (enemyCollision){
+        console.log('chocaste')
+    }
+
+    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
 }
 
 // Asignación de eventos para los botones y teclas de movimiento
