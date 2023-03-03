@@ -4,10 +4,19 @@ const btnUp = document.querySelector('#up')
 const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
+const spanLives = document.querySelector('#lives')
+const spanTime = document.querySelector('#time')
 
 //Variables globales
 let canvasSize
 let elementsSize
+let level = 0
+let lives = 3
+
+let timeStart
+let timePlayer
+let timeInterval
+
 
 //Objeto que almacena las posiciones en el canvas
 const playerPosition = {
@@ -19,7 +28,7 @@ const giftPosition = {
     y: undefined
 }
 
-let enemiesPosition = []
+let enemiesPosition = [] // Array que almacena posiciones de las bombas 
 
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
@@ -43,7 +52,20 @@ function startGame(){    //Funcion realiza los calculos para que responsivamente
     game.font = elementsSize + 'px Arial'
     game.textAlign = 'end'
 
-    const map = maps[0].match(/[IXO\-]+/g).map(a => a.split(""))
+    const m = maps[level]
+
+    if (!m){
+        gameWin()
+        return
+    }
+
+    if (!timeStart){
+        timeStart = Date.now()
+        timeInterval = setInterval(showTime, 100)
+    }
+    const map = m.match(/[IXO\-]+/g).map(a => a.split(""))
+
+    showLives()
 
     enemiesPosition = []
 
@@ -82,7 +104,7 @@ function movePlayer(){
     const exito = giftCollisionX && giftCollisionY
 
     if (exito){
-        console.log('Felicidades!')
+        levelWin()
     }
     const enemyCollision = enemiesPosition.find(enemy => {
         const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
@@ -91,10 +113,47 @@ function movePlayer(){
     })
 
     if (enemyCollision){
-        console.log('chocaste')
+        levelFail()
     }
 
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
+}
+
+function levelWin(){
+    level ++
+    startGame()
+}
+
+function gameWin(){
+    console.log('Terminaste el juego')
+    clearInterval(timeInterval)
+}
+
+function levelFail(){
+    lives --
+
+
+    if (lives <= 0){
+        level = 0
+        lives = 3
+        timeStart = undefined
+    }
+
+    playerPosition.x = undefined
+    playerPosition.y = undefined
+    startGame()
+
+}
+
+function showLives(){
+    hearthArray = Array(lives).fill(emojis['HEATH'])  // Creando una lista con la cantidad de elementos que tengo la variable lives
+   
+    spanLives.innerHTML = ""
+    hearthArray.forEach(hearth => spanLives.append(hearth))
+}
+
+function showTime(){
+    spanTime.innerHTML = Date.now() - timeStart
 }
 
 // Asignación de eventos para los botones y teclas de movimiento
