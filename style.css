@@ -2,7 +2,8 @@
     scroll-behavior: smooth;
 } */
 body {
-    background-color: indigo;
+    overflow-x: hidden;
+    background-color: rgb(14, 0, 122);
     color: #fff;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0;
@@ -16,6 +17,21 @@ body {
     flex-wrap: wrap;
     height: 100vh;
     width: 100vw;
+}
+
+.game-container h1{
+    display: flex;
+    justify-content: center;
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 2.7rem;
+    margin-bottom: 0;
+}
+.game-container > p{
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+    font-size: 1.2rem;
 }
 
 canvas {
@@ -33,7 +49,7 @@ canvas {
 }
 
 button {
-    background-color: #fdef05;
+    background-color: #d7f3fd;
     border-radius: 8px;
     border-color: #ff6600;
     font-family: inherit;
@@ -62,7 +78,7 @@ p {
 
 @media (max-width: 440px) {
     button {
-        margin-top: 25px;
+        margin-top: 5px;
     }
 
     #up,
