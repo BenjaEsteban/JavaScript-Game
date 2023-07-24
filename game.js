@@ -57,7 +57,8 @@ function setCanvasSize(){
     startGame()
 }
 
-function startGame(){    //Funcion realiza los calculos para que responsivamente los emojis queden bien ubicados en el canvas
+//Funcion realiza los calculos para que responsivamente los emojis queden bien ubicados en el canvas
+function startGame(){    
     game.font = elementsSize + 'px Arial'
     game.textAlign = 'end'
 
@@ -187,7 +188,6 @@ function showRecord(){
 
 
 // Asignación de eventos para los botones y teclas de movimiento
-
 window.addEventListener('keydown', moveByKeys)
 btnUp.addEventListener('click', moveUp)
 btnLeft.addEventListener('click', moveLeft)
